@@ -1,4 +1,3 @@
-
 services:
   cafe-recommendation-database:
     container_name: cafe-recommendation-database

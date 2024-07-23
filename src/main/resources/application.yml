@@ -8,8 +8,13 @@ spring:
         - common
 
 ---
-
 spring:
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    check-template-location: true
+    enabled: true
   config:
     activate:
       on-profile: common
@@ -19,6 +24,16 @@ kakao:
     api:
       key: ${KAKAO_REST_API_KEY}
 
+logging:
+  level:
+    com.web.board: debug
+    org.springframework.web.servlet: debug
+    org.hibernate.orm.jdbc.bind: TRACE
+
+cafe:
+  recommendation:
+    base:
+      url: http://localhost:8080/dir/
 ---
 
 spring:
@@ -31,15 +46,13 @@ spring:
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
   jpa:
+    open-in-view: false
     hibernate:
       ddl-auto: validate
     show-sql: true
-
-cafe:
-  recommendation:
-    base:
-      url: http://localhost:8080/dir/
-
+    properties:
+      hibernate.format_sql: true
+      hibernate.hibernate.default_batch_fetch_size: 100
 ---
 
 spring:
