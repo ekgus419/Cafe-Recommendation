@@ -32,8 +32,8 @@
     - 길안내 URL은 고객에게 제공 되기 때문에 가독성을 위해 shorten url로 제공 한다.
     - shorten url에 사용 되는 key값은 인코딩하여 제공 한다.
         - ex) http://localhost:8080/dir/nqxtX
-        - base62를 통한 인코딩
-    - shorten url의 유효 기간은 30일로 제한 한다.
+        - `base62`를 통한 인코딩
+    - `shorten url`의 유효 기간은 `30일`로 제한 한다.
 
 ## Feature List
 
