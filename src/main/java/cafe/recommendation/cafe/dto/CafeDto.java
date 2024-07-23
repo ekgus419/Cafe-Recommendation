@@ -1,4 +1,4 @@
-package cafe.recommendation.cafe;
+package cafe.recommendation.cafe.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
