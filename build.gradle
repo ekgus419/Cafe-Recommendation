@@ -7,6 +7,7 @@ plugins {
 
 group = 'cafe.recommendation'
 version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
 
 java {
 	toolchain {
@@ -32,14 +33,6 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-
-	// thymeleaf
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
-
-//	implementation 'org.springframework.boot:spring-boot-starter-security'
-//	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
-//	testImplementation 'org.springframework.security:spring-security-test'
 
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
@@ -69,4 +62,58 @@ tasks.named('test') {
 
 tasks.withType(JavaCompile) {
 	options.compilerArgs << "-parameters"
+}
+
+// $ ./gradlew clean build -PKAKAO_REST_API_KEY={api key 값} 명령어로 전체 테스트 및 빌드하여 jar 파일 생성
+processTestResources {
+	boolean hasProperty = project.hasProperty("KAKAO_REST_API_KEY")
+	System.out.println("Set kakao rest api key: $hasProperty")
+	filesMatching('**/application.yml') {
+		expand(project.properties)
+	}
+}
+
+def frontendDir = "$projectDir/frontend"
+
+sourceSets {
+	main {
+		resources {
+			srcDirs = ["$projectDir/src/main/resources"]
+		}
+	}
+}
+
+processResources {
+	dependsOn "copyReactBuildFiles"
+}
+
+task installReact(type: Exec) {
+	workingDir "$frontendDir"
+	inputs.dir "$frontendDir"
+	group = BasePlugin.BUILD_GROUP
+	if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+		commandLine "npm.cmd", "audit", "fix"
+		commandLine 'npm.cmd', 'install'
+	} else {
+		commandLine "npm", "audit", "fix"
+		commandLine 'npm', 'install'
+	}
+}
+
+task buildReact(type: Exec) {
+	dependsOn "installReact"
+	workingDir "$frontendDir"
+	inputs.dir "$frontendDir"
+	group = BasePlugin.BUILD_GROUP
+	if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+		commandLine "npm.cmd", "run-script", "build"
+	} else {
+		commandLine "npm", "run-script", "build"
+	}
+}
+
+task copyReactBuildFiles(type: Copy) {
+	dependsOn "buildReact"
+	from "$frontendDir/build"
+	into "$buildDir/resources/main/static"
 }

@@ -2,34 +2,23 @@ package cafe.recommendation.direction.controller;
 
 import cafe.recommendation.cafe.service.CafeRecommendationService;
 import cafe.recommendation.direction.dto.InputDto;
+import cafe.recommendation.direction.dto.OutputDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.List;
+
+@RestController
 @RequiredArgsConstructor
 public class FormController {
 
     private final CafeRecommendationService cafeRecommendationService;
 
-    @GetMapping("/")
-    public String index() {
-        return "main";
-    }
-
     @PostMapping("/search")
-    public ModelAndView postDirection(@ModelAttribute InputDto inputDto) {
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("output");
-        modelAndView.addObject("outputFormList",
-                cafeRecommendationService.recommendCafeList(inputDto.getAddress()));
-
-        return modelAndView;
+    @ResponseBody
+    public List<OutputDto> postDirection(@RequestBody InputDto inputDto) {
+        return cafeRecommendationService.recommendCafeList(inputDto.getAddress());
     }
-
 
 }
