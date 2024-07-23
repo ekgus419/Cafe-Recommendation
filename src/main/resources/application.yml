@@ -9,12 +9,6 @@ spring:
 
 ---
 spring:
-  thymeleaf:
-    cache: false
-    prefix: classpath:/templates/
-    suffix: .html
-    check-template-location: true
-    enabled: true
   config:
     activate:
       on-profile: common
