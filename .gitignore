@@ -266,3 +266,9 @@ $RECYCLE.BIN/
 
 ###
 .env
+
+###
+**/frontend/node_modules/**
+**/frontend/public/**
+**/frontend/.gitignore
+**/frontend/README.md
