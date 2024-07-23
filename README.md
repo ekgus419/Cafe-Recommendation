@@ -58,6 +58,12 @@
 - MariaDB
 - Spock
 
+## Use Command
+- docker-compose -f docker-compose-local.yml up (down)
+- npx create-react-app frontend
+- npm install react-router-dom axios bootstrap jquery
+- npm start
+
 ## Result
 ![Main-Cafe-Recommendation.png](Main-Cafe-Recommendation.png)
 ![Result-Cafe-Recommendation.png](Result-Cafe-Recommendation.png)
