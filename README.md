@@ -56,7 +56,6 @@
 - Github
 - Docker
 - MariaDB
-- Spock
 
 ## Use Command
 - docker-compose -f docker-compose-local.yml up (down)
